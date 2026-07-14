@@ -1,13 +1,13 @@
 # physmem-driverless
 
-driverless physical memory read/write from usermode. loads a signed vulnerable driver (tpwsav.sys), sets up a persistent physical memory window through leaked section handles, then unloads the driver and erases some evidence it was ever there. after bootstrap, you have full physical R/W with zero kernel footprint, no driver, no handles, no traces, HVCI compiant.
+driverless physical memory read/write from usermode. loads a signed vulnerable driver (tpwsav.sys), sets up a persistent physical memory window through leaked section handles, then unloads the driver and erases some evidence it was there. after bootstrap, you have full physical R/W with zero kernel footprint, no driver, no handles, no traces, HVCI compiant.
 
 
-end state: full physical memory access through pointer dereferences. no syscalls, no API calls, no driver, no handles. includes a demo that brute-forces a target process CR3 and reads its memory.
+end state: full physical memory access through pointer dereferences. no syscalls, no API calls, no driver, no handles. includes a demo that brute forces a target process CR3 and reads its memory.
 
 ## the driver
 
-tpwsav.sys is a legitimate signed driver by Compal Electronic for Toshiba laptop power management. it exposes `\Device\PhysicalMemory` mapping through two IOCTLs that were never meant to be accessible from usermode. it was used in the wild by the Qilin ransomware group to blind EDR solutions via BYOVD.
+tpwsav.sys is a legitimate signed driver by Compal Electronic for Toshiba laptop power management. it exposes `\Device\PhysicalMemory` mapping through two IOCTLs that allow us to get a window to view physical memory from usermode. it was used in the wild by the Qilin ransomware group to blind EDR solutions via BYOVD.
 
 
 ## building
